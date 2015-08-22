@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>dialog</title>
+<link href="../common/common.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="ued_plugin_title">dialog(弹出层)</div>
+
+<h2>需要引入文件</h2>
+<xmp>
+  <script type="text/javascript" src="/js/lib/jquery-1.9.1.min.js"></script> 
+  <script type="text/javascript" src="js/dialog.min.js"></script>
+</xmp>
+  <h2>引入语言包(语言包cn.dialog.js、 en.dialog.js)默认是中文</h2>
+  <xmp>
+    <script type="text/javascript" src="/js/lib/jquery-1.9.1.min.js"></script> 
+    <script type="text/javascript" src="js/lang/en.dialog.js"></script>
+    <script type="text/javascript" src="js/dialog.min.js"></script>
+  </xmp>
+
+<div class="demoarea">
+  <h2>默认参数</h2>
+  <xmp>
+    config = {
+        id : parseInt(Math.random() * 100000),  //窗口id后缀
+        icon : '',              		//消息图标名称
+        title : 'izp Dialog',           	//标题
+        content : '这是一个模拟窗口',       	//内容
+        btn : {                 		//按钮
+            ok : {val : '确认', isShow : true, callback : function(){this.close();}},	  //确定按钮
+            cancel : {val : '取消', isShow : true, callback : function(){this.close();}},  //取消按钮
+            close : {val : '\xd7', isShow : true, callback : function(){this.close();}}   //窗口X关闭按钮
+            //btn1 : {val : '自定义按钮1', callback : function(){}, isShow : true},    	  //以下是自定义按钮
+            //btn2 : {val : '自定义按钮2', callback : function(){}, isShow : true}
+        },
+        init : function(){},			//窗口创建完毕后执行
+        width : '200px',    			//窗口宽度（不包括边）
+        height : 'auto',    			//窗口高度（不包括边）
+        left : 'center',    			//X轴坐标
+        top : 'center',     			//Y轴坐标
+        padding : '20px',   			//内容与边界填充距离
+        timeout : 0,        			//窗口显示多少毫秒后自动关闭,如果设置为0,则不自动关闭
+        opacity : 0.5 ,     			//遮罩透明度
+        maskColor : '#000', 			//遮罩颜色
+        isMask : true,      			//是否遮罩
+        isShowLogo : true,  			//是否显示Logo即 标题前面的图标
+        isShowClose : true, 			//是否显示右上角的关闭
+        isFixed : true,     			//是否静止定位
+        isDrag : true,      			//是否拖拽
+        isResize : true,    			//未实现
+        zIndex : 2000,      			//窗口高度
+        follow : null,      			//跟随某元素(即让对话框在元素附近)
+        esc : true,         			//是否按esc关闭窗口
+    }
+    </xmp>
+  <h2>方法</h2>
+  <xmp>
+    1.title(text);设置标题
+    2.content(text);设置内容
+    3.lock();锁屏
+    4.unlock();解屏
+    5.position(left, right);设定位置
+    6.size(width, height);设置大小
+    7.timeout(s);设定时间关闭窗口
+    8.show();显示窗口
+    9.hide();隐藏窗口
+    10.close();关窗窗口 
+   </xmp>
+</div>
+<div id="shortcut">
+快捷入口：<br/>
+<select id="selectItem"></select>
+</div>
+
+<div class="demoarea">
+  <h3>
+  这是第一个dialog!
+  </h3>
+  <xmp>
+    $.dialog({content : '你可以双击后编辑代码并测试！', title : '你可以双击后编辑代码并测试！'});
+  </xmp>
+  <input id="fristDome" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  标题
+  </h3>
+  <xmp> $.dialog({title : 'hellow world!'}); </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  内容
+  </h3>
+  <xmp>
+    $.dialog({
+        content : 'hellow world!我是一个文本框<input type="text" />'
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  内容为某元素ID
+  </h3>
+  <div id="test1"> 内容为某元素ID </div>
+  <xmp>
+    $.dialog({
+        content : 'id:#test1'
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  内容为某元素对象
+  </h3>
+  <div id="test2"> 我在测试内空为某对象元素 </div>
+  <xmp>
+    $.dialog({
+        content : document.getElementById('test2')	//或$('#test2')
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  内容为某元素对象iframe:url
+  </h3>
+  <xmp>
+    $.dialog({
+        content : 'iframe:http://www.baidu.com',
+        width : 800,
+        height : 400
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  登录
+  </h3>
+  <div id="demo4"> 用户名：
+    <input  type="text" name="username" value="小明"/>
+    <br />
+    密&nbsp;&nbsp;码：
+    <input type="password" name="pass" value="123456" />
+  </div>
+  <xmp>
+      $.dialog({
+        content : 'id:#demo4',
+        title : '用户登录',
+        btn : {
+            ok : {val : '登录', callback : function(){
+                $.dialog.succ('登录成功！');
+                return true;
+            }}
+            }
+      });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  设置大小
+  </h3>
+  <xmp>
+    $.dialog({
+        content : '测试自定义大小',
+        width : '200px',
+        height : '30%'
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  自定义坐标
+  </h3>
+  <xmp>
+    $.dialog({
+        content : '测试自定义坐标',
+        left : '30px',
+        top : '20%'
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  按钮
+  </h3>
+  <xmp>
+    $.dialog({
+        content : '测试内容按钮',
+        btn : {
+            ok : {
+                callback : function(){
+                    this.timeout(3);
+                    this.content('3秒后自动关闭');
+                    return false;
+                }
+            },
+            cancel : false	//ok或cancel为false时隐藏按钮
+        }
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  自定义按钮
+  </h3>
+  <xmp>
+    $.dialog({
+        btn : {
+            btn1 : {
+                val : '是',
+                callback : function(){
+                    this.content('你点了是');
+                }
+            },
+            btn2 : {
+                val : '不是', 
+                callback : function(){
+                    this.content('你点了不是'); return true;
+                }
+            }//回调函数return true时关闭窗口
+        }
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  定时关闭窗口
+  </h3>
+  <xmp>
+    $.dialog({
+        timeout : 2,
+        content : '等我下我2秒后关闭'
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  内容与边界填充边距 [padding]
+  </h3>
+  <xmp>
+    $.dialog({
+        padding : 0,
+        title : '照片',
+        content : '<img src="photo.jpg" width="379" height="500" />',
+        isMask : true,
+        btn : {
+            ok : false, 
+            cancel : false
+        }
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  遮罩
+  </h3>
+  <xmp>
+    $.dialog({
+        isMask : true
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  跟随元素 [follw]
+  </h3>
+  <xmp>
+    $.dialog({
+        content : '测试follow!',
+        follow : $('#follow')
+    });
+  </xmp>
+  <input id="follow" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <xmp>
+    $('#jqueryFollow').dialog({
+        content : '测试jquery对象follow'
+    });
+  </xmp>
+  <input id="jqueryFollow" type="button" value="jquery对象follow" />
+  <h3>
+  禁止重复
+  </h3>
+  <xmp>
+    $.dialog({
+        noRepeatId : 12
+    });
+  </xmp>
+  <input id="follow" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  显示隐藏
+  </h3>
+  <xmp>
+    $.dialog({
+        content: '测试显示隐藏<br />点击隐藏后2秒中显示',
+        btn: {
+            ok: {
+                val: '隐藏',
+                callback: function() {
+                    this.hide();
+                    var that = this;
+                    setTimeout(function() {
+                        that.show();
+                    },
+                    2000);
+                }
+            }
+        }
+    });
+  </xmp>
+  <input id="follow" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  右下角提示窗
+  </h3>
+  <xmp>
+    $.dialog({
+        title: '公告',
+        content: 'test右下角提示框！',
+        left: '100%',
+        top: 'bottom',
+        width: '200',
+        height: 200,
+        isMask: false,
+        isDrag: false,
+        btn: {
+            ok: false,
+            cancel: false
+        }
+    });
+  </xmp>
+  <input id="follow" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  锁屏
+  </h3>
+  <xmp>
+    $.dialog({
+        title: 'test锁屏',
+        content: 'test锁屏',
+        btn: {
+            lock: {
+                val: '锁屏',
+                callback: function() {
+                    this.lock();
+                }
+            },
+            unlock: {
+                val: '解锁',
+                callback: function() {
+                    this.unlock();
+                }
+            }
+        }
+    });
+  </xmp>
+  <input id="follow" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  提示
+  </h3>
+  <xmp> $.dialog.tip('提示！两秒后关闭', 2, function(){alert('我关闭了')}); </xmp>
+  <input id="follow" type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  alert
+  </h3>
+  <xmp> $.dialog.alert('这个模拟默认alert'); </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  succ
+  </h3>
+  <xmp> $.dialog.succ('恭喜你操作成功！'); </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  警告
+  </h3>
+  <xmp> $.dialog.warn('您有危险啦！'); </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  错误
+  </h3>
+  <xmp> $.dialog.error('你出错啦！'); </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  加载中
+  </h3>
+  <xmp> $.dialog.loading('正在加载中。。。。。。'); </xmp>
+  <input type="button" value="测试" />
+</div>
+<div class="demoarea">
+  <h3>
+  confirm
+  </h3>
+  <xmp>
+    $.dialog.confirm('你确定删除吗?', 
+        function(){
+            alert('你点了确定！');
+    });
+  </xmp>
+  <input type="button" value="测试" />
+</div>
+
+<script type="text/javascript" src="../common/jquery-1.9.1.min.js"></script> 
+<script type="text/javascript" src="js/dialog.js"></script> 
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
